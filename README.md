@@ -23,9 +23,13 @@ Finally, `cd` to your `/vagrant` directory in virtual machine, import the data:
 
 `$ psql -d news -f newsdata.sql`
 
-## 2 Compile and run the project
+## 3 Compile and run the project
 
-In your virtual machine, type the following command line:
+In your virtual machine, type the following command lines:
+
+`$ git clone https://github.com/TianyangChen/LogsAnalysis.git`
+
+`$ cd LogsAnalysis`
 
 `$ python log_reporter.py`
 
