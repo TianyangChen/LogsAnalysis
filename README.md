@@ -5,6 +5,12 @@ Udacity - Full Stack - Project 3
 
 This project analyzes log information from "news" database.
 
+There are 2 functions in this project:
+
+function `connect(DBNAME)` connects to the database `DBNAME`.
+
+function `execute_query(QUERY, DBNAME)` will execute `QUERY` in databse `DBNAME` and return the results.
+
 ## 2 Set up the database
 
 First, download the data from here:
