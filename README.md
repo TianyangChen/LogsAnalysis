@@ -3,7 +3,7 @@ Udacity - Full Stack - Project 3
 
 ## 1 Description
 
-This project analyzes the log information from "news" database.
+This project analyzes log information from "news" database.
 
 ## 2 Compile and run the project
 
@@ -13,4 +13,6 @@ Then, open a terminal, type the following command line:
 
 `$ python log_reporter.py`
 
-The expected output was shown in `expected_output.txt` 
+The report will be displayed in your terminal.
+
+You can also view this report in `expected_output.txt`. 
