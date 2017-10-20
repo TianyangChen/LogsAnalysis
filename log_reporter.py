@@ -5,19 +5,17 @@ import psycopg2
 DBNAME = "news"
 QUERY1 = """
 SELECT A.title, count(*) as num
-FROM articles A,
-    (SELECT RIGHT(log.path, POSITION('/' in REVERSE(log.path)) -1 ) as path
-    FROM log) L
-WHERE A.slug=L.path
+FROM articles A, log L
+WHERE L.path = concat('/article/', A.slug)
 GROUP BY A.title
 ORDER BY num DESC LIMIT 3;
 """
 QUERY2 = """
-SELECT A.title, count(*) as num
-FROM articles A, log L
-WHERE A.slug=L.path
-GROUP BY A.title
-ORDER BY num DESC LIMIT 3;
+SELECT AU.name, count(*) as num
+FROM articles AR, authors AU, log L
+WHERE AR.author = AU.id AND L.path = concat('/article/', AR.slug)
+GROUP BY AU.name
+ORDER BY num DESC;
 """
 QUERY3 = """
 SELECT date, percentage
@@ -28,12 +26,12 @@ FROM
     FROM
         (SELECT DATE(time) as date, count(*) as num
         FROM log
-        WHERE status<>'200 OK'
+        WHERE status <> '200 OK'
         GROUP BY DATE(time)) ER,
         (SELECT DATE(time) as date, count(*) as num
         FROM log
         GROUP BY DATE(time)) AL
-        WHERE ER.date=AL.date) ANS
+        WHERE ER.date = AL.date) ANS
 WHERE percentage>1;
 """
 
@@ -41,7 +39,7 @@ WHERE percentage>1;
 # This function connect to database DBNAME
 def connect(DBNAME):
     try:
-        pg = psycopg2.connect("database={}".format(DBNAME))
+        pg = psycopg2.connect("dbname={}".format(DBNAME))
         cursor = pg.cursor()
         return pg, cursor
     except:
@@ -72,12 +70,12 @@ print ""
 print "****************************************"
 print "Most popular article authors of all time"
 print "****************************************"
-for x in post2:
+for x in posts2:
     print x[0]+" -- "+str(x[1])+" views"
 print ""
 print "***************************************"
 print "More than 1% of requests lead to errors"
 print "***************************************"
-for x in post3:
+for x in posts3:
     print str(x[0])+" -- "+str(x[1])+"% errors"
 print ""
